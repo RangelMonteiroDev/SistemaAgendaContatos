@@ -1,0 +1,26 @@
+@model List<AgendaDeContatosMVC.Models.Usuarios>;
+
+@{
+
+    ViewData["Title"] = "Lista de Usuarios";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<thead>
+    <tr>
+        <th>IdUsuario</th>
+        <th>Nome</th>
+        <th>Email</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach(var usuario in Model) {
+
+        <tr>
+            <th>@usuario.IdUsuario</th>
+            <th>@usuario.Nome</th>
+            <th>@usuario.Email</th>
+        </tr>
+    }
+</tbody>

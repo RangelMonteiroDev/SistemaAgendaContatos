@@ -1,0 +1,37 @@
+@model AgendaDeContatosMVC.Models.Usuarios;
+
+@{
+    ViewData["Title"] = "Cadastro de Usuarios";
+}
+
+<style>
+    main{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+</style>
+
+<h1>@ViewData["Title"]</h1>    
+
+<main>
+    <section>
+        <form method="post" action="http://localhost:5188/Usuarios/Create">
+  <div class="col">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Nome" name="Nome">
+    </div>
+    <div class="col">
+      <input type="email" class="form-control" placeholder="Email" name="Email">
+    </div>
+    <div class="col">
+      <input type="password" class="form-control" placeholder="Senha" name="Senha">
+    </div>
+    <div class="col">
+      <input type="checkbox" name="Ativo" checked>
+    </div>
+  </div>
+    <button type="submit" class="btn btn-success">Enviar</button>
+    </form>
+</section>
+</main>
