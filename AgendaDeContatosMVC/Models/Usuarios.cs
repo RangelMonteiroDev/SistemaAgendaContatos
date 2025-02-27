@@ -13,6 +13,7 @@ namespace AgendaDeContatosMVC.Models
         public string? Nome {get; set;}
         public string? Email {get; set;}
         public string? Senha {get; set;}
+        public string? CellNumber {get; set;}
         public string? Ativo {get; set;}
 
     }

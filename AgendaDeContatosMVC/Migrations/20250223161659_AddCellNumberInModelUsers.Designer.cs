@@ -4,6 +4,7 @@ using AgendaDeContatosMVC.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgendaDeContatosMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250223161659_AddCellNumberInModelUsers")]
+    partial class AddCellNumberInModelUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,34 +24,6 @@ namespace AgendaDeContatosMVC.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AgendaDeContatosMVC.Models.Administradores", b =>
-                {
-                    b.Property<int>("IdAministrador")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAministrador"));
-
-                    b.Property<string>("Ativo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cpf")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdAutenticacaoAdmin")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdAministrador");
-
-                    b.ToTable("Administradores");
-                });
 
             modelBuilder.Entity("AgendaDeContatosMVC.Models.Autenticacoes", b =>
                 {
@@ -71,26 +46,6 @@ namespace AgendaDeContatosMVC.Migrations
                     b.HasKey("IdAutenticacao");
 
                     b.ToTable("Autenticacoes");
-                });
-
-            modelBuilder.Entity("AgendaDeContatosMVC.Models.AutenticacoesAdmins", b =>
-                {
-                    b.Property<int>("IdAutenticacao")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAutenticacao"));
-
-                    b.Property<DateTime>("DataHora")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("HashCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdAutenticacao");
-
-                    b.ToTable("AutenticacoesAdmins");
                 });
 
             modelBuilder.Entity("AgendaDeContatosMVC.Models.Usuarios", b =>

@@ -17,5 +17,9 @@ namespace AgendaDeContatosMVC.data
         public DbSet<Usuarios> Usuarios{get; set;}
 
         public DbSet<Autenticacoes> Autenticacoes {get; set;}
+
+        public DbSet<Administradores> Administradores {get; set;}
+
+        public DbSet<AutenticacoesAdmins> AutenticacoesAdmins {get; set;}
     }
 }

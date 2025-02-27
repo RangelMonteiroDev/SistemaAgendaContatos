@@ -38,6 +38,28 @@ namespace AgendaDeContatosMVC.Controllers
             return View();
         }
 
+        [HttpGet("EspacoPessoal/{code}")]
+        public IActionResult EspacoPessoal (string code) {
+
+            var operacoes = new OperacoesDeAutenticacao(_context);
+
+            var codigoValidado = operacoes.VerifyAcessCode(code);
+
+            if (codigoValidado)
+            {
+                var IdUsuario = operacoes.RetornarId(code);
+
+                var results = _context.Usuarios.Where(u => u.IdUsuario == IdUsuario).ToList();
+
+                return View(results);
+            }
+            else
+            {
+                return Unauthorized(new {message = "Você não tem acesso a essa página"});
+            }
+
+        }
+
         [HttpGet("UserList/{code}")]
         public IActionResult UserList (string code) {
 
@@ -60,6 +82,21 @@ namespace AgendaDeContatosMVC.Controllers
 
         }
 
+        //Esse método verifica se o usuário já possui cadastro
+        private bool ConferirCadastro (string email) {
+
+            var emailEncontrado = _context.Usuarios.FirstOrDefault(u => u.Email == email);
+
+            if (emailEncontrado != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false; 
+            }
+
+        }
 
         [HttpPost("Create")]
         public IActionResult Create([FromForm] Usuarios usuarios)
@@ -67,6 +104,15 @@ namespace AgendaDeContatosMVC.Controllers
 
             if (ModelState.IsValid)
             {
+                var emailEncontrado = ConferirCadastro(usuarios.Email);
+
+                if (emailEncontrado)
+                {
+                    return Unauthorized(new {message = "Error: email cadastrado"});
+                }
+                else
+                {
+
                 var operacoes = new OperacoesDeAutenticacao(_context);
 
                 string senha = usuarios.Senha;
@@ -79,6 +125,8 @@ namespace AgendaDeContatosMVC.Controllers
                 _context.SaveChanges();
 
                 return RedirectToAction("Login");
+                }
+
             }
             else
             {
@@ -92,7 +140,7 @@ namespace AgendaDeContatosMVC.Controllers
         {   
             var operacoes = new OperacoesDeAutenticacao(_context);
 
-            var existsResults = _context.Usuarios.FirstOrDefault(u => u.Email == usuarios.Email);
+            var existsResults = _context.Usuarios.FirstOrDefault(u => u.Email == usuarios.Email && u.Ativo == "on");
 
             if (existsResults != null)
             {
@@ -100,13 +148,13 @@ namespace AgendaDeContatosMVC.Controllers
 
                 if (senhaEncontrada)
                 {
-                    var codigoDeAcesso = operacoes.GerarCodigo();
+                    var codigoDeAcesso = operacoes.GerarCodigoDeAcesso();
 
                     var DataHora = new DateTime();
 
                     operacoes.AddAutentication(existsResults.IdUsuario, DataHora, codigoDeAcesso);
 
-                    return RedirectToAction("UserList", new {code = codigoDeAcesso});
+                    return RedirectToAction("EspacoPessoal", new {code = codigoDeAcesso});
                 }
                 else
                 {
@@ -193,25 +241,33 @@ namespace AgendaDeContatosMVC.Controllers
         }
 
         //Método de exclusão lógica
-        [HttpPut("ParcialUpdate/{id}")]
-        public IActionResult ParcialUpdade(int id, [FromForm] string ativo)
+        [HttpPut("ParcialUpdate")]
+        public IActionResult ParcialUpdade([FromForm] List<AgendaDeContatosMVC.Models.Usuarios> usuarios)
         {
-
-            var existsResults = _context.Usuarios.Find(id);
-
-            if (existsResults != null)
+            foreach (var usuario in usuarios)
             {
-                existsResults.Ativo = ativo;
+                int id = usuario.IdUsuario;
 
-                _context.Usuarios.Update(existsResults);
-                _context.SaveChanges();
+                string ativo = usuario.Ativo;
 
-                return Ok(new { message = "Exclusão lógica realizada com sucesso" });
+                var existsResults = _context.Usuarios.Find(id);
+
+                if (existsResults != null)
+                {
+                    existsResults.Ativo = ativo;
+
+                    _context.Usuarios.Update(existsResults);
+                    _context.SaveChanges();
+
+                    return Ok(new {message = "Dados atualizados com sucesso"});
+                }
+                else
+                {
+                    return NotFound(new {message = "Dados não encontrados"}); 
+                }
             }
-            else
-            {
-                return NotFound(new { message = "Não foi possível atualizar dados" });
-            }
+
+            return BadRequest( new {message = "Não foi possível realizar a operação"});
         }
 
         [HttpDelete("Delete/{id}")]

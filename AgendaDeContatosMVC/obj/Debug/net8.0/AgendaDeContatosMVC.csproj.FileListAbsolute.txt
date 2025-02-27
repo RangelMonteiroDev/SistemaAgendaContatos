@@ -172,3 +172,4 @@
 /home/rangel/dotnet/web/projetoAgendaDeContatos/AgendaDeContatosMVC/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 /home/rangel/dotnet/web/projetoAgendaDeContatos/AgendaDeContatosMVC/bin/Debug/net8.0/Microsoft.AspNetCore.DataProtection.Abstractions.dll
 /home/rangel/dotnet/web/projetoAgendaDeContatos/AgendaDeContatosMVC/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/home/rangel/dotnet/web/projetoAgendaDeContatos/AgendaDeContatosMVC/obj/Debug/net8.0/AgendaDeContatosMVC.sourcelink.json

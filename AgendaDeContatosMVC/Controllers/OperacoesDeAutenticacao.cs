@@ -33,7 +33,7 @@ namespace AgendaDeContatosMVC.Controllers
         }
 
         //Esse método gera o Código de acesso
-        public string GerarCodigo()
+        public string GerarCodigoDeAcesso()
         {
             int tamanho = 8;    
             const string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -58,7 +58,7 @@ namespace AgendaDeContatosMVC.Controllers
 
         public bool VerifyAcessCode (string code) {
 
-            var existsResults = _context.Autenticacoes.Where(a => a.HashCode == code);
+            var existsResults = _context.Autenticacoes.FirstOrDefault(a => a.HashCode == code);
 
             if (existsResults != null)
             {
@@ -68,6 +68,24 @@ namespace AgendaDeContatosMVC.Controllers
             {
                 return false;
             }
+        }
+
+        public int RetornarId (string code) {
+
+            var existsResults = _context.Autenticacoes.FirstOrDefault(a => a.HashCode == code);
+
+            if (existsResults != null)
+            {
+               return existsResults.IdUsuario;
+            }
+            else
+            {
+               return 0; 
+            }
+        }
+
+        internal class GerarCodigo
+        {
         }
     }
 }

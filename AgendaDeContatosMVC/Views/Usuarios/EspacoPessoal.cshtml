@@ -1,0 +1,53 @@
+@model List<AgendaDeContatosMVC.Models.Usuarios>
+
+@{
+    ViewData["Title"] = "Espaco Pessoal";
+}
+
+<style>
+    .InformacoesUser{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5%;
+    }
+
+    main{
+
+        display: flex;
+        flex-direction: column;
+        padding: 5%;
+        justify-content: center;
+        text-align: center;    
+
+        }
+</style>
+
+<h1>@ViewData["Title"]</h1>
+
+<main>
+    <form>
+ @foreach (var usuarios in Model) {
+
+     <div class="form-group">
+    <section class="InformacoesUser">
+        <h1>Nome</h1>
+        <p>@usuarios.Nome</p>
+    </section>
+  </div>
+  <div class="form-group">
+    <section class="InformacoesUser">
+        <h1>Email</h1>
+        <p>@usuarios.Email</p>
+    </section>
+  </div>
+  <div class="form-group">
+    <section class="InformacoesUser">
+        <h1>CellNumber</h1>
+        <p>@usuarios.CellNumber</p>
+    </section>
+  </div>
+
+ }
+</form>
+</main>
